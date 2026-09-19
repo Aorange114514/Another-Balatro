@@ -37,8 +37,7 @@ return {
                 name = '旗帜',
                 text = {
                     '每个剩余{C:attention}弃牌{}次数',
-                    '使{C:mult}倍率{}乘以{X:mult,C:white}X1{}',
-                    '{C:inactive}（总倍率 = 1 + 剩余弃牌数）',
+                    '{X:mult,C:white}X1{}{C:mult}倍率',
                 },
             },
             j_marble = {
@@ -51,8 +50,7 @@ return {
             j_loyalty_card = {
                 name = '积分卡',
                 text = {
-                    '每打出一手牌，给予{X:mult,C:white}X#1#{}倍率，',
-                    '随后该倍率增加{C:attention}X0.5{}；',
+                    '每打出一手牌，该小丑获得{C:attention}X0.5{}倍率，',
                     '若增加后超过{C:attention}X4{}，则重置为{X:mult,C:white}X0.5{}',
                     '{C:inactive}（当前为{X:mult,C:white}X#1#{C:inactive}）',
                 },
@@ -81,7 +79,7 @@ return {
                 name = '钢铁小丑',
                 text = {
                     '留在手牌中的{C:attention}钢铁牌{}会额外触发一次；',
-                    '每触发一次，此小丑永久获得{C:mult}+5{}倍率',
+                    '触发钢铁牌时，此小丑获得{C:mult}+5{}倍率',
                     '{C:inactive}（当前为{C:mult}+#1#{C:inactive}倍率）',
                 },
             },
@@ -143,21 +141,20 @@ return {
                 name = '鸡蛋',
                 text = {
                     '在回合结束时，此牌的{C:attention}售价{}增加{C:money}$#1#{}',
-                    '{C:inactive}（起始售价提高{C:money}$3{C:inactive}）',
                 },
             },
             j_burglar = {
                 name = '窃贼',
                 text = {
                     '在选择{C:attention}盲注{}时，获得{C:blue}+#1#{}次出牌',
-                    '并将{C:red}弃牌{}次数归零',
+                    '并失去所有{C:red}弃牌{}次数',
                 },
             },
             j_runner = {
                 name = '跑步选手',
                 text = {
                     '每打出一次{C:attention}顺子{}，',
-                    '此小丑的筹码乘以{X:chips,C:white}X#2#{}',
+                    '此小丑获得{X:chips,C:white}X#2#{}筹码',
                     '{C:inactive}（当前为{X:chips,C:white}X#1#{C:inactive}）',
                 },
             },
@@ -165,15 +162,14 @@ return {
                 name = '冰淇淋',
                 text = {
                     '{C:chips}+#1#{}筹码',
-                    '每打出一手牌失去{C:chips}#2#{}筹码，归零时融化',
-                    '{C:inactive}（起始售价降低{C:money}$1{C:inactive}）',
+                    '每次出牌-{C:chips}#2#{}筹码',
                 },
             },
             j_splash = {
                 name = '飞溅',
                 text = {
-                    '打出的所有牌都计入计分',
-                    '你可以打出任意张数的手牌',
+                    '打出的所有牌都计分',
+                    '你可以打出任意张手牌',
                 },
             },
             j_blue_joker = {
@@ -195,7 +191,7 @@ return {
                 name = '绿色小丑',
                 text = {
                     '每打出一手牌，此小丑获得{C:mult}+#1#{}倍率',
-                    '每弃一次牌，此小丑获得{C:mult}+#2#{}倍率',
+                    '每弃一次牌，此小丑获得{C:mult}#2#{}倍率',
                     '{C:inactive}（当前为{C:mult}+#3#{C:inactive}倍率）',
                 },
             },
@@ -220,15 +216,14 @@ return {
                 name = '卡文迪什',
                 text = {
                     '{X:mult,C:white}X3{}倍率',
-                    '此小丑不会在回合结束时自毁',
                 },
             },
             j_card_sharp = {
                 name = '老千小丑',
                 text = {
                     '若打出的牌型与本回合{C:attention}上次打出的牌型{}相同，',
-                    '获得{X:mult,C:white}X#2#{}倍率，每重复一次+1；',
-                    '否则重置为{X:mult,C:white}X1{}',
+                    '获得{X:mult,C:white}X#2#{}倍率',
+                    '否则重置',
                     '{C:inactive}（当前为{X:mult,C:white}X#2#{C:inactive}，',
                     '{C:inactive}上次牌型：{C:attention}#1#{C:inactive}）',
                 },
@@ -269,8 +264,8 @@ return {
             j_vampire = {
                 name = '吸血鬼',
                 text = {
-                    '你打出的{C:attention}所有{}增强牌都会变成普通牌；',
-                    '每张使此小丑永久获得{X:mult,C:white}+X0.1{}倍率',
+                    '将你打出的{C:attention}所有{}增强牌变成普通牌；',
+                    '每张使此小丑获得{X:mult,C:white}+X0.1{}倍率',
                     '{C:inactive}（当前为{X:mult,C:white}X#1#{C:inactive}倍率）',
                 },
             },
@@ -285,9 +280,8 @@ return {
             j_baron = {
                 name = '男爵',
                 text = {
-                    '手牌中的每张{C:attention}K{}视为{C:attention}钢铁牌{}，',
-                    '并额外触发一次',
-                    '{C:inactive}（手牌中与打出时都生效）',
+                    '所有{C:attention}K{}视为{C:attention}钢铁牌{}，',
+                    '所有{C:attention}K{}会额外触发一次',
                 },
             },
             j_obelisk = {
@@ -295,7 +289,7 @@ return {
                 text = {
                     '每打出一手不是你{C:attention}最常用牌型{}的牌，',
                     '此小丑获得{X:mult,C:white}X#1#{}倍率；',
-                    '打出最常用牌型则重置',
+                    '否则重置',
                     '{C:inactive}（当前为{X:mult,C:white}X#2#{C:inactive}倍率）',
                 },
             },
@@ -318,13 +312,13 @@ return {
                 text = {
                     '携带此小丑击败{C:attention}Boss盲注{}时，',
                     '获得{C:attention}+1{}手牌上限',
-                    '{C:inactive}（当前额外{C:attention}+#1#{C:inactive}手牌上限）',
+                    '{C:inactive}（当前{C:attention}+#1#{C:inactive}手牌上限）',
                 },
             },
             j_erosion = {
                 name = '侵蚀',
                 text = {
-                    '起始牌组中每少一张牌，',
+                    '每比初始卡组少一张牌，',
                     '获得{X:mult,C:white}X#2#{}倍率',
                     '{C:inactive}（当前为{X:mult,C:white}X#1#{C:inactive}倍率）',
                 },
@@ -348,7 +342,7 @@ return {
                 name = '微笑表情',
                 text = {
                     '每张计分的{C:attention}人头牌{}使此小丑',
-                    '永久获得{C:mult}+1{}倍率',
+                    '获得{C:mult}+1{}倍率',
                     '{C:inactive}（当前为{C:mult}+#1#{C:inactive}倍率）',
                 },
             },
@@ -363,7 +357,7 @@ return {
             j_hanging_chad = {
                 name = '未断选票',
                 text = {
-                    '打出的第一张计分牌',
+                    '每手打出的第一张计分牌',
                     '额外触发{C:attention}3{}次',
                 },
             },
@@ -372,7 +366,6 @@ return {
                 text = {
                     '计分牌中每有一种不同{C:attention}花色{}，',
                     '获得{X:mult,C:white}X1{}倍率',
-                    '{C:inactive}（2种花色X2、3种X3、4种X4）',
                 },
             },
             j_idol = {
