@@ -46,16 +46,16 @@ tweak('8_ball', { config = { extra = 2 } })         -- #8  1 in 2 chance (was 1 
 tweak('space', { config = { extra = 2 } })          -- #17 1 in 2 chance (was 1 in 4)
 tweak('ride_the_bus', { config = { extra = 2 } })   -- #19 Mult growth +2 (was +1)
 tweak('wee', { config = { extra = { chips = 0, chip_mod = 10 } } }) -- #56 +10 Chips (was +8)
-tweak('blue_joker', { config = { extra = 31 } })    -- #23 +31 Chips (was +2)
+tweak('blue_joker', { config = { extra = 3 } })    -- #23 +31 Chips (was +2)
 tweak('hiker', { config = { extra = 15 } })         -- #24 +15 Chips (was +5)
-tweak('square', { config = { extra = { chips = 0, chip_mod = 6 } } }) -- #32 +6 Chips (was +4)
-tweak('misprint', { config = { extra = { min = 4, max = 30 } } })     -- #9  +4~+30 Mult
+tweak('square', { config = { extra = { chips = 0, chip_mod = 8 } } }) -- #32 +6 Chips (was +4)
+tweak('misprint', { config = { extra = { min = 8, max = 30 } } })     -- #9  +4~+30 Mult
 tweak('golden', { cost = 4 })                       -- #45 sell/cost -> $4
-tweak('supernova', { config = { extra = 2 } })      -- #15 extra Chips factor (jokers_a.lua uses it)
+tweak('supernova', { config = { extra = 5 } })      -- #15 extra Chips factor (jokers_a.lua uses it)
 tweak('half', { config = { extra = { mult = 15, size = 3 } } })       -- #2  +15 Mult, <=3 cards
 tweak('burglar', { config = { extra = 5 } })        -- #19 +5 Hands (was +3)
 tweak('erosion', { config = { extra = 0.2 } })      -- #43 Xmult growth 0.2 (kept, base reworked)
 tweak('hit_the_road', { config = { extra = 0.25 } }) -- kept from vanilla
-tweak('green_joker', { config = { extra = { hand_add = 2, discard_sub = 2 } } }) -- #25 +2/+2 (was +1/+1)
-tweak('invisible', { config = { extra = 5 } })      -- kept: copy leftmost every 5 rounds
+tweak('green_joker', { config = { extra = { hand_add = 2, discard_sub = -2 } } }) -- #25 +2/+2 (was +1/+1)
+tweak('invisible', { config = { extra = 2 } })      -- kept: copy leftmost every 5 rounds
 tweak('obelisk', { config = { extra = 0.25, Xmult = 1 } }) -- #38 Xmult growth 0.25 (was 0.2)

@@ -11,16 +11,24 @@ SMODS.Joker:take_ownership('half', {
             return { mult_mod = card.ability.extra.mult, message = ABR.msg_mult(card.ability.extra.mult), colour = G.C.MULT }
         end
     end,
-    loc_vars = function(self, info_queue, card) return { vars = { card.ability.extra.mult, card.ability.extra.size } } end,
+    loc_vars = function(self, info_queue, card)
+        local e = card.ability.extra or {}
+        return { vars = { e.mult, e.size } }
+    end,
 })
 
 --------------------------------------------------------------------------------
 -- #3 Joker Stencil: each empty Joker slot grants +10 Chips AND X1.5 Mult
 --------------------------------------------------------------------------------
 local function stencil_empty_slots()
-    local empty = G.jokers.config.card_limit - #G.jokers.cards
-    for i = 1, #G.jokers.cards do
-        if G.jokers.cards[i].ability.name == 'Joker Stencil' then empty = empty + 1 end
+    -- Also reached from loc_vars, which SMODS can call for a card preview
+    -- (e.g. its run-select screen) where no Joker area exists yet.
+    local area = G.jokers
+    if not (area and area.config and area.cards) then return 0 end
+    local empty = (area.config.card_limit or 0) - #area.cards
+    for i = 1, #area.cards do
+        local a = area.cards[i].ability
+        if a and a.name == 'Joker Stencil' then empty = empty + 1 end
     end
     return empty
 end
@@ -72,7 +80,7 @@ SMODS.Joker:take_ownership('ceremonial', {
             return { mult_mod = card.ability.mult, message = ABR.msg_mult(card.ability.mult), colour = G.C.MULT }
         end
     end,
-    loc_vars = function(self, info_queue, card) return { vars = { card.ability.mult } } end,
+    loc_vars = function(self, info_queue, card) return { vars = { card.ability.mult or 0 } } end,
 })
 
 --------------------------------------------------------------------------------
@@ -116,6 +124,14 @@ SMODS.Joker:take_ownership('supernova', {
                 colour = G.C.MULT,
             }
         end
+    end,
+    -- The bonus is per poker hand, so the tooltip shows the values for the
+    -- hand type that was played most recently (vanilla has no current value).
+    loc_vars = function(self, info_queue, card)
+        local last = (G.GAME and G.GAME.last_hand_played) or 'High Card'
+        local played = (G.GAME and G.GAME.hands and G.GAME.hands[last] and G.GAME.hands[last].played) or 0
+        local extra = card.ability.extra or 2
+        return { vars = { extra, played, extra * played, ABR.hand_name(last) } }
     end,
 })
 
@@ -188,6 +204,15 @@ SMODS.Joker:take_ownership('stone', {
     calculate = function(self, card, context)
         ABR.record_trigger(card, context)
     end,
+    loc_vars = function(self, info_queue, card)
+        local tally = 0
+        if G.P_CENTERS and G.P_CENTERS.m_stone then
+            for _, v in pairs(G.playing_cards or {}) do
+                if v.config.center == G.P_CENTERS.m_stone then tally = tally + 1 end
+            end
+        end
+        return { vars = { ABR.fmt_mult(1 + 0.1 * tally), 0.1 } }
+    end,
 })
 
 --------------------------------------------------------------------------------
@@ -202,6 +227,12 @@ SMODS.Joker:take_ownership('erosion', {
                 return { Xmult_mod = x, message = ABR.msg_xmult(x), colour = G.C.MULT }
             end
         end
+    end,
+    loc_vars = function(self, info_queue, card)
+        local deck = G.playing_cards and #G.playing_cards or nil
+        local missing = deck and math.max(0, (G.GAME and G.GAME.starting_deck_size or 0) - deck) or 0
+        local extra = card.ability.extra or 0.2
+        return { vars = { ABR.fmt_mult(1 + extra * missing), extra } }
     end,
 })
 
@@ -242,7 +273,8 @@ SMODS.Joker:take_ownership('green_joker', {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.hand_add, card.ability.extra.discard_sub, card.ability.mult } }
+        local e = card.ability.extra or {}
+        return { vars = { e.hand_add, e.discard_sub, card.ability.mult or 0 } }
     end,
 })
 

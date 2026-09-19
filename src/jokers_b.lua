@@ -66,7 +66,9 @@ SMODS.Joker:take_ownership('card_sharp', {
             end
         end
     end,
-    loc_vars = function(self, info_queue, card) return { vars = { ABR.hand_name(card.ability.anba_last) } } end,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { ABR.hand_name(card.ability.anba_last), card.ability.anba_x or 1 } }
+    end,
 })
 
 --------------------------------------------------------------------------------
@@ -132,6 +134,7 @@ SMODS.Joker:take_ownership('vampire', {
             return { Xmult_mod = card.ability.x_mult, message = ABR.msg_xmult(card.ability.x_mult), colour = G.C.MULT }
         end
     end,
+    loc_vars = function(self, info_queue, card) return { vars = { card.ability.x_mult or 1 } } end,
 })
 
 --------------------------------------------------------------------------------
@@ -330,6 +333,7 @@ SMODS.Joker:take_ownership('smiley', {
             return { mult_mod = card.ability.mult, message = ABR.msg_mult(card.ability.mult), colour = G.C.MULT }
         end
     end,
+    loc_vars = function(self, info_queue, card) return { vars = { card.ability.mult or 0 } } end,
 })
 
 --------------------------------------------------------------------------------
@@ -348,8 +352,9 @@ SMODS.Joker:take_ownership('drivers_license', {
     end,
     loc_vars = function(self, info_queue, card)
         local n = 0
+        local base = G.P_CENTERS and G.P_CENTERS.c_base
         for _, v in pairs(G.playing_cards or {}) do
-            if v.config.center ~= G.P_CENTERS.c_base then n = n + 1 end
+            if v.config.center ~= base then n = n + 1 end
         end
         return { vars = { 1 + 0.125 * n } }
     end,
@@ -471,6 +476,7 @@ SMODS.Joker:take_ownership('steel_joker', {
             end
         end
     end,
+    loc_vars = function(self, info_queue, card) return { vars = { card.ability.mult or 0 } } end,
 })
 
 --------------------------------------------------------------------------------
@@ -480,6 +486,12 @@ SMODS.Joker:take_ownership('steel_joker', {
 SMODS.Joker:take_ownership('throwback', {
     calculate = function(self, card, context)
         ABR.record_trigger(card, context)
+    end,
+    -- exponent actually applied in final_scoring.lua: 1 + extra x skipped Blinds
+    loc_vars = function(self, info_queue, card)
+        local skips = G.GAME and G.GAME.skips or 0
+        local extra = card.ability.extra or 0.25
+        return { vars = { extra, ABR.fmt_mult(1 + extra * skips) } }
     end,
 })
 
